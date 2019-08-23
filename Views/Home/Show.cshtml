@@ -1,0 +1,54 @@
+@model Act
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Activity</title>
+    <link rel="stylesheet" href="~/css/show.css"/>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-7 text-left">
+            <h1>Dojo Activity Center</h1>
+        </div>
+        <div class="col-md-3 text-right">
+            <a href="/dashboard">Home</a>
+        </div>
+        <div class="col-md-2 text-right">
+            <a class="text-right" href="/logout">Logout</a>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <h2>@Model.Title</h2>
+        <div class="text-center" id="button">
+            @if(Model.UserId == ViewBag.User)
+            {
+                <button class="btn btn-dark"><a href="/delete/@Model.ActivityId">Delete</a></button>
+            }
+            else if (Model.Participants.Any(p => p.UserId == ViewBag.User))
+            {
+                <button class="btn btn-dark"><a href="/leave/@Model.ActivityId">Leave</a></button>
+            }
+            else
+            {
+                <button class="btn btn-dark"><a href="/join/@Model.ActivityId">Join</a></button>
+            }
+        </div>
+    </div>
+    <br>
+    <h4>Event Coordinator: @Model.Creator.FirstName @Model.Creator.LastName</h4>
+    <br>
+    <h4>Description:</h4>
+    <p>@Model.Description</p>
+    <br>
+    <br>
+    <h5>Participants</h5>
+    @foreach (var participant in Model.Participants)
+    {
+    <p>@participant.ParticipantInfo.FirstName @participant.ParticipantInfo.LastName</p>
+    }
+</body>
+</html>
